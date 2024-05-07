@@ -14,7 +14,7 @@ docker push tpionka/sample-node-backend
 docker pull tpionka/sample-node-backend
 ```
 ```
-docker run -p 0.0.0.0:5500:5500 -d --env-file ./.env tpionka/sample-node-backend
+docker run -p 5500:5500 -d --env-file ./.env tpionka/sample-node-backend
 ```
 
 ## Client
@@ -31,5 +31,5 @@ docker push tpionka/sample-react-frontend
 docker pull tpionka/sample-react-frontend
 ```
 ```
-docker run -p 0.0.0.0:3000:3000 -d tpionka/sample-react-frontend
+docker run -p 3000:3000 -d tpionka/sample-react-frontend
 ```
