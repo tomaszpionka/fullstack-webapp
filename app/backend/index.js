@@ -2,10 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const db = require('./db/connection.js');
 
+dotenv.config();
+const port = process.env.SERVER_PORT;
+
 const app = express();
-const port = 5500;
 
 app.use(express.json());
 app.use(cors());

@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
-from settings import *
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from settings import *
 
 SQLALCHEMY_DB_URL = f"mysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_DATABASE}"
 # SQLALCHEMY_DB_URL = f"mysql://{MYSQL_USER}:{MYSQL_PASSWORD}@localhost:{MYSQL_PORT}/{MYSQL_DATABASE}"
