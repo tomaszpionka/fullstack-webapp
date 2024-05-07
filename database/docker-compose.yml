@@ -3,6 +3,7 @@ version: '3'
 services:
   db:
     image: mysql:latest
+    command: mysqld
     container_name: db
     env_file:
       - ./.env
@@ -12,7 +13,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "6033:3306"
+      - "${MYSQL_PORT}:3306"
     volumes:
       - dbdata:/var/lib/mysql
   phpmyadmin:

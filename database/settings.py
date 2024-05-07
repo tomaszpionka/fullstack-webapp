@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+dotenv_path = os.path.join(os.path.dirname(__file__), "mysql/.env")
 load_dotenv(dotenv_path)
 
 MYSQL_ROOT_PASSWORD = os.environ.get("MYSQL_ROOT_PASSWORD")
