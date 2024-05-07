@@ -24,7 +24,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://161.35.30.62:5500/login', formData);
+            const response = await axios.post('/login', formData);
             const { token } = response.data;
             localStorage.setItem('token', token);
             setError('');

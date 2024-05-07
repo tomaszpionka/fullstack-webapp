@@ -9,7 +9,7 @@ const Home = () => {
 
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://161.35.30.62:5500/products');
+                const response = await axios.get('/products');
                 setProducts(response.data);
             } catch (err) {
                 console.log(err)

@@ -10,7 +10,7 @@ const Profile = () => {
 
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('http://161.35.30.62:5500/profile', {
+                const response = await axios.get('/profile', {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
                 setUserData(response.data);
