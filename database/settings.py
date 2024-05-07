@@ -1,4 +1,3 @@
-# settings.py
 import os
 from dotenv import load_dotenv
 
@@ -10,4 +9,4 @@ MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE")
 MYSQL_USER = os.environ.get("MYSQL_USER")
 MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
 MYSQL_SERVER = os.environ.get("MYSQL_SERVER")
-MYSQL_PORT = os.environ.get("MYSQL_PORT")
+MYSQL_PORT = os.environ.get("MYSQL_DOCKER_PORT")
