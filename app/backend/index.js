@@ -95,6 +95,22 @@ app.get('/products', (req, res) => {
     });
 });
 
+app.post('/products', async(req, res) =>{
+    const { name, description, amount } = req.body;
+
+    console.log(name, description, amount);
+
+    const sql = 'INSERT INTO products (name, description, amount) VALUES (?, ?, ?)';
+    db.query(sql,[name, description, amount], (err, result)=>{
+        if(err){
+            console.log(`error occured: ${err}`)
+        } else {
+            console.log(`item added: ${name}, ${description}`);
+            res.status(200).json({message:'Success'})
+        }
+    })
+})
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
 });

@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Profile from './components/auth/Profile'
+import Products from './components/auth/Products'
 import './App.css'
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/logout" element={<Navigate to='/' />} />
       </Routes>
     </BrowserRouter>

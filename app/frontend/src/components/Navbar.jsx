@@ -10,6 +10,7 @@ const Navbar = ({ loggedIn, handleLogout }) => {
             {!loggedIn && <Link to="/login">Login</Link>}
             {!loggedIn && <Link to="/register">Register</Link>}
             {loggedIn && <Link to="/profile">Profile</Link>}
+            {loggedIn && <Link to="/products">Add Products</Link>}
             {loggedIn && <Link to="/logout" onClick={handleLogout}>Logout</Link>}
         </div>
     )
