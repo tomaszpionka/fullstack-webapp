@@ -53,7 +53,7 @@ const Login = () => {
                     required placeholder="Password" /> <br />
                 <button type="submit">Login</button>
             </form>
-            <p>Don't have an account? <Link to='/register'>Register</Link></p>
+            <p>Don't have an account? <Link to='/register'>Login</Link></p>
         </div>
     )
 }
