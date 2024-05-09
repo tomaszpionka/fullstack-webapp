@@ -74,12 +74,16 @@ const authenticate = (req, res, next) => {
 
 app.get('/profile', authenticate, (req, res) => {
     const userId = req.userId;
-    const sql = 'SELECT id, username FROM users WHERE id = ?';
+    const sql = 'SELECT id, username, first_name, last_name FROM users WHERE id = ?';
     db.query(sql, [userId], (err, result) => {
         if (err || result.length === 0) {
             res.status(500).json({ message: 'Error fetching details' });
         } else {
-            res.json({ username: result[0].username });
+            res.json({ username: result[0].username,
+                first_name: result[0].first_name,
+                last_name: result[0].last_name
+            });
+            console.log(result[0].username, result[0].first_name, result[0].last_name);
         }
     });
 });
