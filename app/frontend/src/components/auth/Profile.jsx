@@ -33,6 +33,16 @@ const Profile = () => {
                 userData ? (
                     <div>
                         <h2>Your User name is: {userData.username}</h2>
+                        <table>
+                            <tr>
+                                <td>First Name</td>
+                                <td>{userData.first_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Last Name</td>
+                                <td>{userData.last_name}</td>
+                            </tr>
+                        </table>
                     </div>
                 ) : (
                     <p>Loading user data</p>
