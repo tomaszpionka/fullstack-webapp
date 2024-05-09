@@ -19,13 +19,14 @@ docker run -p 5500:5500 -d --env-file ./.env --network dev_network --name server
 
 ## Client
 1. In your dev environment go to [Dockerfile](/app/frontend/Dockerfile) parent directory
-2. When you finished development, run commands:
+2. Specify REACT_APP_PROXY_HOST=*SERVER CONTAINER NAME* in ./.env file.
+3. When you finished development,  run commands:
 ```
 docker build -t sample-react-frontend .
 ```
-3. Run container:
+4. Run container:
 ```
-docker run -p 3000:3000 -d --network dev_network --name frontend sample-react-frontend
+docker run -p 3000:3000 -d --env-file ./.env --network dev_network --name frontend sample-react-frontend
 ```
 
 # Deployment
