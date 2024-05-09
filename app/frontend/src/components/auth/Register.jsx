@@ -22,7 +22,7 @@ const Register = () => {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         try {
-            const response = await axios.post('/register', formData );
+            const response = await axios.post('/api/register', formData );
             console.log("Registration Successful")
             navigate('/login');
             window.location.reload();
