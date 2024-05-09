@@ -55,13 +55,13 @@ app.post('/login', async (req, res) => {
 
 const authenticate = (req, res, next) => {
     const token = req.header('Authorization');
-    console.log(`Unextracted token: ${token}`);
+    //console.log(`Unextracted token: ${token}`);
 
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
     const extractedToken = token.split(' ')[1];
-    console.log(`Actual token: ${extractedToken}`);
+    //console.log(`Actual token: ${extractedToken}`);
 
     try {
         const decoded = jwt.verify(extractedToken, 'secret_key');
