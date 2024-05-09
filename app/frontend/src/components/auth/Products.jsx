@@ -25,7 +25,7 @@ const Products = () => {
         try {
             const response = await axios.post('/products', formData );
             console.log("Product added")
-            navigate('/');
+            navigate('/products');
             window.location.reload();
         } catch (error) {
             console.log("Product adding failed: " + error)
