@@ -23,7 +23,7 @@ const Products = () => {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         try {
-            const response = await axios.post('/products', formData );
+            const response = await axios.post('/api/products', formData );
             console.log("Product added")
             navigate('/home');
             window.location.reload();
