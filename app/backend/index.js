@@ -56,7 +56,6 @@ app.post('/login', async (req, res) => {
 const authenticate = (req, res, next) => {
     const token = req.header('Authorization');
     //console.log(`Unextracted token: ${token}`);
-
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -99,13 +98,11 @@ app.get('/products', (req, res) => {
     });
 });
 
-app.post('/products', async(req, res) =>{
+app.post('/products', authenticate, async(req, res) =>{
     const { name, description, amount } = req.body;
-
-    console.log(name, description, amount);
-
-    const sql = 'INSERT INTO products (name, description, amount) VALUES (?, ?, ?)';
-    db.query(sql,[name, description, amount], (err, result)=>{
+    const owner_id = req.userId;
+    const sql = 'INSERT INTO products (name, description, amount, owner_id) VALUES (?, ?, ?, ?)';
+    db.query(sql,[name, description, amount, owner_id], (err, result)=>{
         if(err){
             console.log(`error occured: ${err}`)
         } else {

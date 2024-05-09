@@ -6,7 +6,7 @@ const Navbar = ({ loggedIn, handleLogout }) => {
     return (
         <div className="navbar">
             <Link to="/">Home</Link>
-            <Link to="/">Products</Link>
+            <Link to="/products">Products</Link>
             {!loggedIn && <Link to="/login">Login</Link>}
             {!loggedIn && <Link to="/register">Register</Link>}
             {loggedIn && <Link to="/profile">Profile</Link>}
