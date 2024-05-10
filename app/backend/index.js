@@ -23,6 +23,7 @@ app.post('/register', async (req, res) => {
     db.query(sql, [username, hashedPassword], (err, result) => {
         if (err) {
             console.log(`Error occured during registration: ${err}`);
+            res.status(500).json({ message: 'Error creating user' });
         } else {
             res.status(200).json({ message: 'User registered' });
         }
@@ -83,7 +84,6 @@ app.get('/profile', authenticate, (req, res) => {
                 first_name: result[0].first_name,
                 last_name: result[0].last_name
             });
-            console.log(result[0].username, result[0].first_name, result[0].last_name);
             res.status(200);
         }
     });
@@ -109,7 +109,7 @@ app.post('/products', async(req, res) =>{
     db.query(sql,[name, description, amount], (err, result)=>{
         if(err){
             console.log(`error occured: ${err}`);
-            res.status(500);
+            res.status(500).json({ message: 'Error adding products' });
         } else {
             console.log(`item added: ${name}, ${description}`);
             res.status(200).json({message:'Success'})
