@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios'
+import axios from 'axios';
+import Products from "./auth/Products";
 
 const Home = () => {
 
@@ -21,6 +22,7 @@ const Home = () => {
 
     return(
         <div className="home-container">
+            <Products></Products>
             <h2>Our Products</h2>
             <div className="product-list">
                 {products.map((product, index)=>(
