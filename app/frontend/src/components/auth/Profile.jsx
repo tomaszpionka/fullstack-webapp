@@ -50,7 +50,19 @@ const Profile = () => {
             console.log("Data update failed: " + error)
         }
     }
-
+    const activeChg = async(e) =>{
+        e.preventDefault();
+        const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
+        const is_active = userData.is_active;
+        console.log(is_active);
+        if(is_active == null){
+            try{
+                const response = await axios.patch('/api/profile', 1, header );
+            } catch(error) {
+                console.log("Data update failed: " + error)
+            }
+        }
+    }
 
     return (
         <div className="profile-container">
@@ -79,6 +91,8 @@ const Profile = () => {
                             required placeholder="Enter new last name"/><br/>
                             <button type="submit">Update</button>
                         </form>
+                        <br />
+                        <button type="button" onClick={activeChg}>account activity</button>
                     </div>
                 ) : (
                     <p>Loading user data</p>

@@ -73,16 +73,17 @@ const authenticate = (req, res, next) => {
 
 app.get('/profile', authenticate, (req, res) => {
     const userId = req.userId;
-    const sql = 'SELECT id, username, first_name, last_name FROM users WHERE id = ?';
+    const sql = 'SELECT id, username, first_name, last_name, is_active FROM users WHERE id = ?';
     db.query(sql, [userId], (err, result) => {
         if (err || result.length === 0) {
             res.status(500).json({ message: 'Error fetching details' });
         } else {
             res.json({ username: result[0].username,
                 first_name: result[0].first_name,
-                last_name: result[0].last_name
+                last_name: result[0].last_name,
+                is_active: result[0].is_active
             });
-            console.log(result[0].username, result[0].first_name, result[0].last_name);
+            console.log(result[0].username, result[0].first_name, result[0].last_name, result[0].is_active);
         }
     });
 });
@@ -99,7 +100,6 @@ app.patch('/profile', authenticate, async(req,res)=>{
         }
     });
 });
-
 app.get('/products', (req, res) => {
     const sql = 'SELECT * FROM products';
     db.query(sql, (err, result) => {
