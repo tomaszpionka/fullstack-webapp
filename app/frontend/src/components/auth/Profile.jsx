@@ -4,7 +4,11 @@ import axios from "axios";
 
 const Profile = () => {
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null)
+    const [userData, setUserData] = useState(null);
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: ''
+    });
 
     useEffect(() => {
 
@@ -22,8 +26,30 @@ const Profile = () => {
         }
 
         fetchUserData();
-    }, [])
+    }, []);
 
+
+    const handleChange = (e) =>{
+        const {name, value} = e.target;
+        setFormData((prevData)=>({
+            ...prevData,
+            [name]: value,
+        }))
+    }
+
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
+        try {
+            const response = await axios.patch('/api/profile', formData, header );
+            console.log("Data update successful");
+            //navigate('/profile');
+            window.location.reload();
+        } catch (error) {
+            console.log("Data update failed: " + error)
+        }
+    }
 
 
     return (
@@ -43,6 +69,16 @@ const Profile = () => {
                                 <td>{userData.last_name}</td>
                             </tr>
                         </table>
+                        <form onSubmit={handleSubmit}>
+                            <h2>Update your data:</h2>
+                            <input type="text" name="first_name"
+                            value={formData.first_name} onChange={handleChange}
+                            required placeholder="Enter new first name"/><br/>
+                            <input type="text" name="last_name"
+                            value={formData.last_name} onChange={handleChange}
+                            required placeholder="Enter new last name"/><br/>
+                            <button type="submit">Update</button>
+                        </form>
                     </div>
                 ) : (
                     <p>Loading user data</p>
