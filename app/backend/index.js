@@ -89,7 +89,6 @@ app.get('/profile', authenticate, (req, res) => {
 app.patch('/profile', authenticate, async(req,res)=>{
     const { first_name, last_name } = req.body;
     const userId = req.userId;
-    console.log(req.body,req.userId);
     const sql = 'UPDATE users SET first_name = ?,last_name = ? WHERE id = ?';
     db.query(sql,[first_name,last_name,userId],(err,result)=>{
         if (err) {

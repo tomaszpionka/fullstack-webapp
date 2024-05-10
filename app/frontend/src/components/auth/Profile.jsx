@@ -6,8 +6,8 @@ const Profile = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
     const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: ''
+        firstName: '',
+        lastName: ''
     });
 
     useEffect(() => {
@@ -44,7 +44,6 @@ const Profile = () => {
         try {
             const response = await axios.patch('/api/profile', formData, header );
             console.log("Data update successful");
-            //navigate('/profile');
             window.location.reload();
         } catch (error) {
             console.log("Data update failed: " + error)
