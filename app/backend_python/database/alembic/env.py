@@ -4,7 +4,9 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+import sys
 
+sys.dont_write_bytecode = True
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -33,7 +35,6 @@ url = section["sqlalchemy.url"].format(
 )
 
 engine = create_engine(url)
-validate_database(engine)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -68,12 +69,16 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+
     section["sqlalchemy.url"] = url
     connectable = engine_from_config(
         section,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
+
+    if not validate_database(url):
+        quit()
 
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
