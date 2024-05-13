@@ -9,3 +9,4 @@ class Products(Base):
     name = Column(VARCHAR(length=255))
     description = Column(VARCHAR(length=255))
     amount = Column(Float)
+    owner_id = Column(Integer)
