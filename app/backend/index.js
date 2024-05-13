@@ -80,10 +80,23 @@ app.get('/profile', authenticate, (req, res) => {
             res.status(500).json({ message: 'Error fetching details' });
         } else {
             res.json({ username: result[0].username,
-                first_name: result[0].first_name,
-                last_name: result[0].last_name
+                firstName: result[0].first_name,
+                lastName: result[0].last_name
             });
-            res.status(200);
+        }
+    });
+});
+
+app.put('/profile', authenticate, async(req,res)=>{
+    const { firstName, lastName } = req.body;
+    const userId = req.userId;
+    const sql = 'UPDATE users SET first_name = ?,last_name = ? WHERE id = ?';
+    db.query(sql,[firstName,lastName,userId],(err,result)=>{
+        if (err) {
+            res.status(500).json({ message: 'Error updating data' })
+            console.log(`Error occured during update: ${err}`);
+        } else {
+            res.status(200).json({ message: 'User data updated' });
         }
     });
 });
