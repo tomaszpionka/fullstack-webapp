@@ -1,0 +1,18 @@
+version: '3'
+name: load_balancer
+services:
+  nginx:
+    container_name: nginx
+    networks:
+      - lb_app
+    build:
+      context: ./nginx
+    env_file:
+      - ./nginx/.env.example
+    restart: always
+    ports:
+      - "80:80"
+
+networks:
+  lb_app:
+    external: true
