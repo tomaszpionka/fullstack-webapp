@@ -46,7 +46,7 @@ app.post('/login', async (req, res) => {
             const match = await bcrypt.compare(password, result[0].password);
             if (match) {
                 const token = jwt.sign({ userId: result[0].id }, 'secret_key', { expiresIn: 10 * 60 });
-                res.status(200).json({ message: 'User logged in', token })
+                res.status(200).json({ message: 'User logged in', token });
             } else {
                 res.status(401).json({ message: 'Password incorrect!' });
             }
@@ -86,6 +86,7 @@ app.get('/profile', authenticate, (req, res) => {
         }
     });
 });
+
 app.put('/profile', authenticate, async(req,res)=>{
     const { firstName, lastName } = req.body;
     const userId = req.userId;
@@ -118,7 +119,7 @@ app.post('/products', authenticate, async(req, res) =>{
     db.query(sql,[name, description, amount, owner_id], (err, result)=>{
         if(err){
             console.log(`error occured: ${err}`);
-            res.status(500).json({message:'Error adding products'})
+            res.status(500).json({ message: 'Error adding products' });
         } else {
             console.log(`item added: ${name}, ${description}`);
             res.status(200).json({message:'Success'})
