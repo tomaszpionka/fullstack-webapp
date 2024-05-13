@@ -7,8 +7,12 @@ const Profile = () => {
     const [userData, setUserData] = useState(null);
     const [formData, setFormData] = useState({
         first_name: '',
-        last_name: ''
+        last_name: '',
+        is_active: ''
     });
+    const [acc, setAcc] = useState({
+        is_active: ''
+    })
 
     useEffect(() => {
 
@@ -50,17 +54,29 @@ const Profile = () => {
             console.log("Data update failed: " + error)
         }
     }
-    const activeChg = async(e) =>{
-        e.preventDefault();
+    const activeAcc = async() =>{
+        const updatedAcc = { ...acc, is_active: true };
+        setAcc(updatedAcc);
         const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
         const is_active = userData.is_active;
         console.log(is_active);
-        if(is_active == null){
-            try{
-                const response = await axios.patch('/api/profile', 1, header );
-            } catch(error) {
-                console.log("Data update failed: " + error)
-            }
+        try{
+            const response = await axios.patch('/api/profile/activity', updatedAcc, header );
+        } catch(error) {
+            console.log("Activity update failed: " + error)
+        }
+    }
+    const disableAcc = async() =>{
+        const updatedAcc = { ...acc, is_active: false };
+        setAcc(updatedAcc);
+        const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
+        const is_active = userData.is_active;
+        console.log(is_active);
+        try{
+            const response = await axios.patch('/api/profile/activity', updatedAcc, header );
+            console.log(acc);
+        } catch(error) {
+            console.log("Activity update failed: " + error)
         }
     }
 
@@ -80,6 +96,10 @@ const Profile = () => {
                                 <td>Last Name</td>
                                 <td>{userData.last_name}</td>
                             </tr>
+                            <tr>
+                                <td>Account status</td>
+                                <td>{userData.is_active}</td>
+                            </tr>
                         </table>
                         <form onSubmit={handleSubmit}>
                             <h2>Update your data:</h2>
@@ -92,7 +112,8 @@ const Profile = () => {
                             <button type="submit">Update</button>
                         </form>
                         <br />
-                        <button type="button" onClick={activeChg}>account activity</button>
+                        <button type="button" onClick={activeAcc}>Activate</button>
+                        <button type="button" onClick={disableAcc}>Disable</button>
                     </div>
                 ) : (
                     <p>Loading user data</p>
