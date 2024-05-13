@@ -23,8 +23,9 @@ app.post('/register', async (req, res) => {
     db.query(sql, [username, hashedPassword], (err, result) => {
         if (err) {
             console.log(`Error occured during registration: ${err}`);
+            res.status(500).json({ message: 'Error creating user' });
         } else {
-            res.json({ message: 'User registered' });
+            res.status(200).json({ message: 'User registered' });
         }
     })
 });
@@ -45,7 +46,7 @@ app.post('/login', async (req, res) => {
             const match = await bcrypt.compare(password, result[0].password);
             if (match) {
                 const token = jwt.sign({ userId: result[0].id }, 'secret_key', { expiresIn: 10 * 60 });
-                res.json({ message: 'User logged in', token })
+                res.status(200).json({ message: 'User logged in', token })
             } else {
                 res.status(401).json({ message: 'Password incorrect!' });
             }
@@ -79,22 +80,22 @@ app.get('/profile', authenticate, (req, res) => {
             res.status(500).json({ message: 'Error fetching details' });
         } else {
             res.json({ username: result[0].username,
-                first_name: result[0].first_name,
-                last_name: result[0].last_name
+                firstName: result[0].first_name,
+                lastName: result[0].last_name
             });
-            console.log(result[0].username, result[0].first_name, result[0].last_name);
         }
     });
 });
-app.patch('/profile', authenticate, async(req,res)=>{
-    const { first_name, last_name } = req.body;
+app.put('/profile', authenticate, async(req,res)=>{
+    const { firstName, lastName } = req.body;
     const userId = req.userId;
     const sql = 'UPDATE users SET first_name = ?,last_name = ? WHERE id = ?';
-    db.query(sql,[first_name,last_name,userId],(err,result)=>{
+    db.query(sql,[firstName,lastName,userId],(err,result)=>{
         if (err) {
+            res.status(500).json({ message: 'Error updating data' })
             console.log(`Error occured during update: ${err}`);
         } else {
-            res.json({ message: 'User data updated' });
+            res.status(200).json({ message: 'User data updated' });
         }
     });
 });
@@ -105,7 +106,7 @@ app.get('/products', (req, res) => {
         if (err) {
             res.status(500).json({ message: 'Error fetching products' })
         } else {
-            res.json(result);
+            res.status(200).json(result);
         }
     });
 });
@@ -116,7 +117,8 @@ app.post('/products', authenticate, async(req, res) =>{
     const sql = 'INSERT INTO products (name, description, amount, owner_id) VALUES (?, ?, ?, ?)';
     db.query(sql,[name, description, amount, owner_id], (err, result)=>{
         if(err){
-            console.log(`error occured: ${err}`)
+            console.log(`error occured: ${err}`);
+            res.status(500).json({message:'Error adding products'})
         } else {
             console.log(`item added: ${name}, ${description}`);
             res.status(200).json({message:'Success'})

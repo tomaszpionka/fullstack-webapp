@@ -42,7 +42,7 @@ const Profile = () => {
         e.preventDefault();
         const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
         try {
-            const response = await axios.patch('/api/profile', formData, header );
+            const response = await axios.put('/api/profile', formData, header );
             console.log("Data update successful");
             window.location.reload();
         } catch (error) {
@@ -61,20 +61,20 @@ const Profile = () => {
                         <table>
                             <tr>
                                 <td>First Name</td>
-                                <td>{userData.first_name}</td>
+                                <td>{userData.firstName}</td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>{userData.last_name}</td>
+                                <td>{userData.lastName}</td>
                             </tr>
                         </table>
                         <form onSubmit={handleSubmit}>
                             <h2>Update your data:</h2>
-                            <input type="text" name="first_name"
-                            value={formData.first_name} onChange={handleChange}
+                            <input type="text" name="firstName"
+                            value={formData.firstName} onChange={handleChange}
                             required placeholder="Enter new first name"/><br/>
-                            <input type="text" name="last_name"
-                            value={formData.last_name} onChange={handleChange}
+                            <input type="text" name="lastName"
+                            value={formData.lastName} onChange={handleChange}
                             required placeholder="Enter new last name"/><br/>
                             <button type="submit">Update</button>
                         </form>
