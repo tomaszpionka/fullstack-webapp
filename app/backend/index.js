@@ -100,32 +100,20 @@ app.patch('/profile', authenticate, async(req,res)=>{
         }
     });
 });
-app.patch('/profile/activity', authenticate, async(req,res)=>{
-    const is_active = req.body;
+
+app.patch('/profile/activity', authenticate, async(req, res)=>{
+    const {is_active} = req.body;
     const userId = req.userId;
-    if(req.is_active == true){
-        const sql = 'UPDATE users SET is_active = True WHERE id = ?';
-        db.query(sql, [is_active, userId], (err, result)=>{
-            if(err){
-                console.log(`Error occured during update: ${err}`);
-            }
-            else {
-                console.log('account activated');
-            }
-        });
-    }
-    else {
-        const sql = 'UPDATE users SET is_active = False WHERE id = ?';
-        db.query(sql, [is_active, userId], (err, result)=>{
-            if(err){
-                console.log(`Error occured during update: ${err}`);
-            }
-            else {
-                console.log('account activated');
-                console.log(result.is_active)
-            }
-        });
-    }
+    const sql = 'UPDATE users SET is_active = ? WHERE id = ?';
+    db.query(sql, [is_active, userId], (err, result)=>{
+        if(err){
+            console.log(`Error occured during update: ${err}`);
+        }
+        else {
+            console.log('account activity updated');
+        }
+    });
+
 })
 app.get('/products', (req, res) => {
     const sql = 'SELECT * FROM products';

@@ -48,36 +48,39 @@ const Profile = () => {
         try {
             const response = await axios.patch('/api/profile', formData, header );
             console.log("Data update successful");
-            //navigate('/profile');
             window.location.reload();
         } catch (error) {
             console.log("Data update failed: " + error)
         }
     }
-    const activeAcc = async() =>{
-        const updatedAcc = { ...acc, is_active: true };
-        setAcc(updatedAcc);
+
+    const changeAcc = async() =>{
         const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
         const is_active = userData.is_active;
         console.log(is_active);
-        try{
-            const response = await axios.patch('/api/profile/activity', updatedAcc, header );
-        } catch(error) {
-            console.log("Activity update failed: " + error)
+        if(is_active == 0){
+            try{
+                const updatedAcc = { ...acc, is_active: 1 };
+                setAcc(updatedAcc);
+                const response = await axios.patch('/api/profile/activity', updatedAcc, header );
+                is_active = 1;
+                window.location.reload();
+            } catch(error) {
+                console.log("Activity update failed: " + error)
+            }
         }
-    }
-    const disableAcc = async() =>{
-        const updatedAcc = { ...acc, is_active: false };
-        setAcc(updatedAcc);
-        const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
-        const is_active = userData.is_active;
-        console.log(is_active);
-        try{
-            const response = await axios.patch('/api/profile/activity', updatedAcc, header );
-            console.log(acc);
-        } catch(error) {
-            console.log("Activity update failed: " + error)
+        else{
+            try{
+                const updatedAcc = { ...acc, is_active: 0 };
+                setAcc(updatedAcc);
+                const response = await axios.patch('/api/profile/activity', updatedAcc, header );
+                is_active = 0;
+                window.location.reload();
+            } catch(error) {
+                console.log("Activity update failed: " + error)
+            }
         }
+        
     }
 
     return (
@@ -112,8 +115,7 @@ const Profile = () => {
                             <button type="submit">Update</button>
                         </form>
                         <br />
-                        <button type="button" onClick={activeAcc}>Activate</button>
-                        <button type="button" onClick={disableAcc}>Disable</button>
+                        <button type="button" onClick={changeAcc}>Activate</button>
                     </div>
                 ) : (
                     <p>Loading user data</p>
