@@ -1,0 +1,27 @@
+version: '3'
+name: app_green
+services:
+  frontend_green:
+    container_name: frontend_green
+    build:
+      context: ./frontend
+    networks:
+      - lb_app
+    env_file:
+      - ./frontend/.env.green
+    restart: always
+    depends_on:
+      - server_green
+  server_green:
+    container_name: server_green
+    build:
+      context: ./backend
+    networks:
+      - lb_app
+    restart: always
+    env_file:
+      - ./backend/.env
+
+networks:
+  lb_app:
+    external: true
