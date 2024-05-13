@@ -14,21 +14,27 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-from app import SQLALCHEMY_DB_URL
-from models import schema_traversing
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from utils import schema_traversing, get_credentials, validate_database
 from app import Base
 
-schema_traversing()
-config.set_main_option("sqlalchemy.url", SQLALCHEMY_DB_URL)
+database = getattr(config.cmd_opts, "name")
+schema = context.get_x_argument(as_dictionary=True).get("schema")
+
+schema_traversing(database, schema)
 target_metadata = Base.metadata
 
+MYSQL_USER, MYSQL_PASSWORD, MYSQL_SERVER, MYSQL_PORT = get_credentials(database)
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+section = config.get_section(config.config_ini_section)
+url = section["sqlalchemy.url"].format(
+    MYSQL_USER, MYSQL_PASSWORD, MYSQL_SERVER, MYSQL_PORT, schema
+)
+
+engine = create_engine(url)
+validate_database(engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def run_migrations_offline() -> None:
@@ -62,8 +68,9 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    section["sqlalchemy.url"] = url
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        section,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
