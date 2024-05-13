@@ -27,7 +27,7 @@ schema = context.get_x_argument(as_dictionary=True).get("schema")
 schema_traversing(database, schema)
 target_metadata = Base.metadata
 
-MYSQL_USER, MYSQL_PASSWORD, MYSQL_SERVER, MYSQL_PORT = get_credentials(database)
+MYSQL_USER, MYSQL_PASSWORD, MYSQL_SERVER, MYSQL_PORT = get_credentials()
 
 section = config.get_section(config.config_ini_section)
 url = section["sqlalchemy.url"].format(

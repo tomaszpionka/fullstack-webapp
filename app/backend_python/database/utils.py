@@ -1,23 +1,14 @@
 import importlib.util
 import os
 import sys
-from dotenv import load_dotenv
 from sqlalchemy_utils import database_exists
+from settings import *
 
 sys.dont_write_bytecode = True
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
 
-def get_credentials(database):
-    target_dir = os.path.join(current_dir, "models", database)
-    dotenv_path = os.path.join(target_dir, ".env")
-    load_dotenv(dotenv_path)
-
-    MYSQL_USER = os.environ.get("MYSQL_USER")
-    MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
-    MYSQL_SERVER = os.environ.get("MYSQL_SERVER")
-    MYSQL_PORT = os.environ.get("MYSQL_PORT")
-
+def get_credentials():
     return MYSQL_USER, MYSQL_PASSWORD, MYSQL_SERVER, MYSQL_PORT
 
 
