@@ -79,38 +79,38 @@ app.get('/profile', authenticate, (req, res) => {
             res.status(500).json({ message: 'Error fetching details' });
         } else {
             res.json({ username: result[0].username,
-                first_name: result[0].first_name,
-                last_name: result[0].last_name,
-                is_active: result[0].is_active
+                firstName: result[0].first_name,
+                lastName: result[0].last_name,
+                isActive: result[0].is_active
             });
-            console.log(result[0].username, result[0].first_name, result[0].last_name, result[0].is_active);
         }
     });
 });
 app.patch('/profile', authenticate, async(req,res)=>{
-    const { first_name, last_name } = req.body;
+    const { firstName, lastName } = req.body;
     const userId = req.userId;
-    console.log(req.body,req.userId);
     const sql = 'UPDATE users SET first_name = ?,last_name = ? WHERE id = ?';
-    db.query(sql,[first_name,last_name,userId],(err,result)=>{
+    db.query(sql,[firstName, lastName, userId],(err,result)=>{
         if (err) {
             console.log(`Error occured during update: ${err}`);
         } else {
-            res.json({ message: 'User data updated' });
+            res.status(200).json({ message: 'User data updated' });
         }
     });
 });
 
 app.patch('/profile/activity', authenticate, async(req, res)=>{
-    const {is_active} = req.body;
+    const isActive = req.body.isActive;
     const userId = req.userId;
     const sql = 'UPDATE users SET is_active = ? WHERE id = ?';
-    db.query(sql, [is_active, userId], (err, result)=>{
+    db.query(sql, [isActive, userId], (err, result)=>{
         if(err){
             console.log(`Error occured during update: ${err}`);
+            res.status(500).json({ message: 'Error updating user data' });
         }
         else {
             console.log('account activity updated');
+            res.status(200).json({ message: 'User data updated' });
         }
     });
 
