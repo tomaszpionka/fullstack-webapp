@@ -108,9 +108,11 @@ app.patch('/profile/activity', authenticate, async(req, res)=>{
     db.query(sql, [is_active, userId], (err, result)=>{
         if(err){
             console.log(`Error occured during update: ${err}`);
+            res.status(500).json({ message: 'Error updating user data' });
         }
         else {
             console.log('account activity updated');
+            res.status(200).json({ message: 'User data updated' });
         }
     });
 
