@@ -33,20 +33,20 @@ const Profile = () => {
     }, []);
 
 
-    const handleChange = (e) =>{
-        const {name, value} = e.target;
-        setFormData((prevData)=>({
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }))
     }
 
 
-    const handleSubmit = async(e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
+        const header = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
         try {
-            const response = await axios.patch('/api/profile', formData, header );
+            const response = await axios.patch('/api/profile', formData, header);
             console.log("Data update successful");
             window.location.reload();
         } catch (error) {
@@ -54,33 +54,19 @@ const Profile = () => {
         }
     }
 
-    const changeAcc = async() =>{
-        const header = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
-        const is_active = userData.is_active;
-        console.log(is_active);
-        if(is_active == 0){
-            try{
-                const updatedAcc = { ...acc, is_active: 1 };
-                setAcc(updatedAcc);
-                const response = await axios.patch('/api/profile/activity', updatedAcc, header );
-                is_active = 1;
-                window.location.reload();
-            } catch(error) {
-                console.log("Activity update failed: " + error)
-            }
+    const changeAcc = async (e) => {
+        e.preventDefault();
+        const header = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
+        try {
+            const updatedAcc = { ...acc, is_active: userData.is_active === 0 ? 1 : 0 };
+            setAcc(updatedAcc);
+            const response = await axios.patch('/api/profile/activity', updatedAcc, header);
+            console.log("Data update successful");
+            window.location.reload();
+        } catch (error) {
+            console.log("Activity update failed: " + error)
         }
-        else{
-            try{
-                const updatedAcc = { ...acc, is_active: 0 };
-                setAcc(updatedAcc);
-                const response = await axios.patch('/api/profile/activity', updatedAcc, header );
-                is_active = 0;
-                window.location.reload();
-            } catch(error) {
-                console.log("Activity update failed: " + error)
-            }
-        }
-        
+
     }
 
     return (
@@ -107,15 +93,20 @@ const Profile = () => {
                         <form onSubmit={handleSubmit}>
                             <h2>Update your data:</h2>
                             <input type="text" name="first_name"
-                            value={formData.first_name} onChange={handleChange}
-                            required placeholder="Enter new first name"/><br/>
+                                value={formData.first_name} onChange={handleChange}
+                                required placeholder="Enter new first name" /><br />
                             <input type="text" name="last_name"
-                            value={formData.last_name} onChange={handleChange}
-                            required placeholder="Enter new last name"/><br/>
+                                value={formData.last_name} onChange={handleChange}
+                                required placeholder="Enter new last name" /><br />
                             <button type="submit">Update</button>
                         </form>
                         <br />
-                        <button type="button" onClick={changeAcc}>Activate</button>
+                        <button
+                            type="button"
+                            style={userData.is_active === 1 ? { background: 'red' } : { background: '#4caf50' }}
+                            onClick={changeAcc}>
+                            {userData.is_active === 1 ? "Deactivate" : "Activate"}
+                        </button>
                     </div>
                 ) : (
                     <p>Loading user data</p>
