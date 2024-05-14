@@ -23,8 +23,9 @@ app.post('/register', async (req, res) => {
     db.query(sql, [username, hashedPassword], (err, result) => {
         if (err) {
             console.log(`Error occured during registration: ${err}`);
+            res.status(500).json({ message: 'Error creating user' });
         } else {
-            res.json({ message: 'User registered' });
+            res.status(200).json({ message: 'User registered' });
         }
     })
 });
@@ -45,7 +46,7 @@ app.post('/login', async (req, res) => {
             const match = await bcrypt.compare(password, result[0].password);
             if (match) {
                 const token = jwt.sign({ userId: result[0].id }, 'secret_key', { expiresIn: 10 * 60 });
-                res.json({ message: 'User logged in', token })
+                res.status(200).json({ message: 'User logged in', token });
             } else {
                 res.status(401).json({ message: 'Password incorrect!' });
             }
@@ -121,7 +122,7 @@ app.get('/products', (req, res) => {
         if (err) {
             res.status(500).json({ message: 'Error fetching products' })
         } else {
-            res.json(result);
+            res.status(200).json(result);
         }
     });
 });
@@ -132,7 +133,8 @@ app.post('/products', authenticate, async(req, res) =>{
     const sql = 'INSERT INTO products (name, description, amount, owner_id) VALUES (?, ?, ?, ?)';
     db.query(sql,[name, description, amount, owner_id], (err, result)=>{
         if(err){
-            console.log(`error occured: ${err}`)
+            console.log(`error occured: ${err}`);
+            res.status(500).json({ message: 'Error adding products' });
         } else {
             console.log(`item added: ${name}, ${description}`);
             res.status(200).json({message:'Success'})

@@ -41,7 +41,6 @@ const Profile = () => {
         }))
     }
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const header = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };

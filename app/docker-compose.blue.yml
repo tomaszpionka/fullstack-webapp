@@ -1,0 +1,28 @@
+version: '3'
+name: app_blue
+services:
+  frontend_blue:
+    container_name: frontend_blue
+    build:
+      context: ./frontend
+    networks:
+      - lb_app
+    env_file:
+      - ./frontend/.env.blue
+    restart: always
+    depends_on:
+      - server_blue
+  server_blue:
+    container_name: server_blue
+    build:
+      context: ./backend
+    networks:
+      - lb_app
+    env_file:
+      - ./backend/.env
+    restart: always
+
+networks:
+  lb_app:
+    external: true
+  
