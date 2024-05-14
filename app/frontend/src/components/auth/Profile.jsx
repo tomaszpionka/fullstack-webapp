@@ -6,12 +6,12 @@ const Profile = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
     const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
-        is_active: ''
+        firstName: '',
+        lastName: '',
+        isActive: ''
     });
     const [acc, setAcc] = useState({
-        is_active: ''
+        isActive: ''
     })
 
     useEffect(() => {
@@ -58,10 +58,9 @@ const Profile = () => {
         e.preventDefault();
         const header = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
         try {
-            const updatedAcc = { ...acc, is_active: userData.is_active === 0 ? 1 : 0 };
+            const updatedAcc = { ...acc, isActive: userData.isActive === 0 ? 1 : 0 };
             setAcc(updatedAcc);
             const response = await axios.patch('/api/profile/activity', updatedAcc, header);
-            console.log("Data update successful");
             window.location.reload();
         } catch (error) {
             console.log("Activity update failed: " + error)
@@ -79,33 +78,33 @@ const Profile = () => {
                         <table>
                             <tr>
                                 <td>First Name</td>
-                                <td>{userData.first_name}</td>
+                                <td>{userData.firstName}</td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>{userData.last_name}</td>
+                                <td>{userData.lastName}</td>
                             </tr>
                             <tr>
                                 <td>Account status</td>
-                                <td>{userData.is_active}</td>
+                                <td>{userData.isActive}</td>
                             </tr>
                         </table>
                         <form onSubmit={handleSubmit}>
                             <h2>Update your data:</h2>
-                            <input type="text" name="first_name"
-                                value={formData.first_name} onChange={handleChange}
+                            <input type="text" name="firstName"
+                                value={formData.firstName} onChange={handleChange}
                                 required placeholder="Enter new first name" /><br />
-                            <input type="text" name="last_name"
-                                value={formData.last_name} onChange={handleChange}
+                            <input type="text" name="lastName"
+                                value={formData.lastName} onChange={handleChange}
                                 required placeholder="Enter new last name" /><br />
                             <button type="submit">Update</button>
                         </form>
                         <br />
                         <button
                             type="button"
-                            style={userData.is_active === 1 ? { background: 'red' } : { background: '#4caf50' }}
+                            style={userData.isActive === 1 ? { background: 'red' } : { background: '#4caf50' }}
                             onClick={changeAcc}>
-                            {userData.is_active === 1 ? "Deactivate" : "Activate"}
+                            {userData.isActive === 1 ? "Deactivate" : "Activate"}
                         </button>
                     </div>
                 ) : (
